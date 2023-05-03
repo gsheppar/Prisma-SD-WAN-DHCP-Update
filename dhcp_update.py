@@ -19,7 +19,7 @@ import json
 TIME_BETWEEN_API_UPDATES = 60       # seconds
 REFRESH_LOGIN_TOKEN_INTERVAL = 7    # hours
 SDK_VERSION = cloudgenix.version
-SCRIPT_NAME = 'CloudGenix: DHCP Get'
+SCRIPT_NAME = 'CloudGenix: DHCP Update'
 SCRIPT_VERSION = "v1"
 
 # Set NON-SYSLOG logging to use function name
@@ -55,7 +55,7 @@ def dhcp(cgx, list_of_csv):
         print("Checking site " + site["name"])
         for dhcp in cgx.get.dhcpservers(site_id=site["id"]).cgx_content['items']:
             for dhcp_check in site_dhcp_list:
-                if dhcp["id"] == dhcp_check["id"]:
+                if dhcp["subnet"] == dhcp_check["subnet"]:
                     #print("--Checking DHCP subnet " + dhcp["subnet"])
                     update_dhcp = False
                     ### DHCP Description Check ###
