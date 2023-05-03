@@ -108,7 +108,17 @@ def dhcp(cgx, list_of_csv):
                             print(str(jdout(resp)))
                         else:
                             print("--UPDATING DHCP on " + site["name"] + " subnet " + dhcp["subnet"])
-                            site_dhcp_update = True       
+                            site_dhcp_update = True
+        if site_dhcp_update:
+            data = {"action":"restart_intf_dhcp_server","parameters":None}
+            for element in cgx.get.elements().cgx_content['items']:
+                if element["site_id"] == site["id"]:
+                    resp = cgx.post.tenant_element_operations(element_id=element["id"], data = data)
+                    if not resp:
+                        print("--ERROR restrating DHCP server on " + element["name"])
+                        print(str(jdout(resp)))
+                    else:
+                        print("--RESTARTING DHCP server on " + element["name"])       
     
     return
 
